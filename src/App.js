@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 function App() {
   const [champions, setChampions] = useState(['Ezreal']);
@@ -8,6 +8,18 @@ function App() {
     setChampions([...champions, newChampion]);
     setNewChampion('');
   }
+
+  useEffect(() => {
+    const storage = localStorage.getItem('champions');
+    if (storage) {
+      setChampions(JSON.parse(storage));
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('champions', JSON.stringify(champions));
+  }, [champions]);
+
+  const championsSize = useMemo(() => champions.length, [champions]);
   return (
     <>
       <ul>
@@ -22,6 +34,7 @@ function App() {
       <button type="button" onClick={handleAdd}>
         Add
       </button>
+      <p>Total de campeões: {championsSize}</p>
     </>
   );
 }
