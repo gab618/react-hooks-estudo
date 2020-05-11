@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 function App() {
   const [champions, setChampions] = useState(['Ezreal']);
   const [newChampion, setNewChampion] = useState('');
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     setChampions([...champions, newChampion]);
     setNewChampion('');
-  }
+  }, [champions, newChampion]);
 
   useEffect(() => {
     const storage = localStorage.getItem('champions');
